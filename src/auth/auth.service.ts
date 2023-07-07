@@ -15,10 +15,10 @@ export class AuthService {
     return bcrypt.hash(data, 10);
   }
 
-  async refreshLocalToken(userId: string, rt: string) {
+  async refreshLocalToken(userId: any, rt: string) {
     const user = await this.prismaService.user.findUnique({
       where: {
-        id: userId,
+        id: userId.sub,
       },
     });
 
