@@ -1,73 +1,230 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+<p  align="center">
+
+<a  href="http://nestjs.com/"  target="blank"><img  src="https://nestjs.com/img/logo-small.svg"  width="200"  alt="Nest Logo"  /></a>
+
 </p>
 
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<p  align="center">A progressive <a  href="http://nodejs.org"  target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
 
-## Description
+# Freelancer Hub
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Connecting talented freelancers with clients in need of their services.
+
+## Table of contents (optional)
+
+- [Project Description](#project-description)
+
+- [Requirements](#requirements)
+
+- [Installation](#installation)
+
+- [What's Inside](#whats-inside)
+
+- [Configuration](#)
+
+## Project Description
+
+### Stack Used In The Project
+
+This project has been made using
+
+- [NestJS](https://nestjs.com//).
+
+- [Prisma](https://www.prisma.io/). - for ORM
+
+- [PlanetScale](https://planetscale.com/) - to create database
+
+For the authentication, we are using JWT to create access token and also refresh token for the api validation. Access token will expired in 30 minutes, while the refresh token will expired in 7 days.
+
+### Features
+
+some methods that are being used to showcase the implementation of the api:
+
+#### Auth
+
+@POST /auth/admin/signin
+
+```javascript
+{
+  username: string;
+
+  password: string;
+}
+```
+
+@POST /auth/admin/signup
+
+```json
+
+{
+
+name: string
+
+username:  string
+
+password:  string
+
+email:  string
+
+}
+
+```
+
+@POST /auth/admin/logout
+
+```
+
+using header to logout
+
+'Authorization' : 'Bearer [token]'
+
+```
+
+---
+
+#### freelancer
+
+@POST /freelancer - create a freelancer
+
+```json
+
+{
+
+name: string
+
+username:  string
+
+hobby:  string
+
+email:  string
+
+phoneNum:  string
+
+skillSets: [{title:string}]
+
+}
+
+```
+
+@GET /freelancer - to get all list of freelancers
+
+@GET /freelancer/:id - to get specific freelancer
+
+@PATCH /freelancer/:id - to update specific freelancer
+
+```json
+
+{
+
+name: string
+
+username:  string
+
+hobby:  string
+
+email:  string
+
+phoneNum:  string
+
+skillSets: [{title:string}]
+
+}
+
+```
+
+@DELETE /freelancer/:id - to delete specific freelancer
+
+## Requirements (required) <a id="requirements">
+
+- Installed a source-code editor (etc, visual studio code)
+
+- You must have node and npm installed (via brew install node or NodeJS.org);
+
+- You must have yarn installed ( optional )
 
 ## Installation
 
 ```bash
-$ yarn install
+
+$  cd [folder_name]
+
+$  git  clone  https://github.com/nazrighazi/freelancer-nestjs.git
+
+$  yarn  or  npm  i
+
+$  npm  run  start:dev
+
 ```
 
-## Running the app
+## What's inside? <a id="whats-inside">
+
+A quick look at the top-level files and directories in this project.
 
 ```bash
-# development
-$ yarn run start
 
-# watch mode
-$ yarn run start:dev
+├──  prisma
 
-# production mode
-$ yarn run start:prod
+├──  src
+
+├──  .eslintrc.js
+
+├──  .gitignore
+
+├──  .prettierrc
+
+├──  nestcli.json
+
+├──  package.json
+
+├──  README.md
+
+├──  tsconfig.build.json
+
+├──  tsconfig.json
+
+├──  yarn.lock
+
 ```
 
-## Test
+## What's inside src ?
 
-```bash
-# unit tests
-$ yarn run test
+A quick look at the top-level files and directories in this project.
 
-# e2e tests
-$ yarn run test:e2e
+```shell
 
-# test coverage
-$ yarn run test:cov
+├──  auth
+
+├──  auth.controller.ts
+
+├──  auth.service.ts
+
+├──  common
+
+├──  freelancer
+
+├──  prisma
+
+├──  app.controller.spec.ts
+
+├──  app.controller.ts
+
+├──  app.module.ts
+
+├──  app.service.ts
+
+├──  main.ts
+
 ```
 
-## Support
+1.  **`./auth`** : folder for specific flow. There's tho flow in this project, which is auth and freelancer.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+2.  **`./auth.controller.ts`** : handling incoming **requests** and returning **responses** to the client.
 
-## Stay in touch
+3.  **`./auth.service.ts`**: responsible for data storage and retrieval, called from controller
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+4.  **`./common`**: for decorators and guard
 
-## License
-
-Nest is [MIT licensed](LICENSE).
+5.  **`./prisma`**: instantiate `PrismaClient` and Prisma Clinet API to connect to database.
