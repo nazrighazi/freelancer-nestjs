@@ -57,20 +57,16 @@ some methods that are being used to showcase the implementation of the api:
 
 @POST /auth/admin/signup
 
-```json
-
+```javascript
 {
+  name: string;
 
-name: string
+  username: string;
 
-username:  string
+  password: string;
 
-password:  string
-
-email:  string
-
+  email: string;
 }
-
 ```
 
 @POST /auth/admin/logout
@@ -89,24 +85,20 @@ using header to logout
 
 @POST /freelancer - create a freelancer
 
-```json
-
+```javascript
 {
+  name: string;
 
-name: string
+  username: string;
 
-username:  string
+  hobby: string;
 
-hobby:  string
+  email: string;
 
-email:  string
+  phoneNum: string;
 
-phoneNum:  string
-
-skillSets: [{title:string}]
-
+  skillSets: [{ title: string }];
 }
-
 ```
 
 @GET /freelancer - to get all list of freelancers
@@ -115,24 +107,20 @@ skillSets: [{title:string}]
 
 @PATCH /freelancer/:id - to update specific freelancer
 
-```json
-
+```javascript
 {
+  name: string;
 
-name: string
+  username: string;
 
-username:  string
+  hobby: string;
 
-hobby:  string
+  email: string;
 
-email:  string
+  phoneNum: string;
 
-phoneNum:  string
-
-skillSets: [{title:string}]
-
+  skillSets: [{ title: string }];
 }
-
 ```
 
 @DELETE /freelancer/:id - to delete specific freelancer
