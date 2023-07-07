@@ -154,25 +154,15 @@ A quick look at the top-level files and directories in this project.
 ```bash
 
 ├──  prisma
-
 ├──  src
-
 ├──  .eslintrc.js
-
 ├──  .gitignore
-
 ├──  .prettierrc
-
 ├──  nestcli.json
-
 ├──  package.json
-
 ├──  README.md
-
 ├──  tsconfig.build.json
-
 ├──  tsconfig.json
-
 ├──  yarn.lock
 
 ```
@@ -182,29 +172,17 @@ A quick look at the top-level files and directories in this project.
 A quick look at the top-level files and directories in this project.
 
 ```shell
-
 ├──  auth
-
-├──  auth.controller.ts
-
-├──  auth.service.ts
-
+      ├──  auth.controller.ts
+      ├──  auth.service.ts
 ├──  common
-
 ├──  freelancer
-
 ├──  prisma
-
 ├──  app.controller.spec.ts
-
 ├──  app.controller.ts
-
 ├──  app.module.ts
-
 ├──  app.service.ts
-
 ├──  main.ts
-
 ```
 
 1.  **`./auth`** : folder for specific flow. There's tho flow in this project, which is auth and freelancer.
