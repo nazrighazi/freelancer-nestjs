@@ -1,16 +1,22 @@
 import {
   BadRequestException,
   ForbiddenException,
+  Inject,
   Injectable,
 } from '@nestjs/common';
 import { FreelancerDto } from './dto/freelancer.dto';
 import { UpdateFreelancerDto } from './dto/update-freelancer.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ok } from 'assert';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class FreelancerService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) {}
 
   async createFreelancer(dto: FreelancerDto) {
     const compareUser = await this.checkExistingUser(dto);
@@ -40,6 +46,8 @@ export class FreelancerService {
     console.log(newUser);
 
     if (!newUser) throw new BadRequestException('Error on body request');
+
+    await this.cacheManager.reset();
 
     return newUser;
   }
@@ -156,6 +164,8 @@ export class FreelancerService {
 
     if (!user) throw new BadRequestException('Error while updating the data');
 
+    await this.cacheManager.reset();
+
     return user;
   }
 
@@ -174,6 +184,8 @@ export class FreelancerService {
     });
 
     if (!deleteUser) throw new BadRequestException('Error while deleting user');
+
+    await this.cacheManager.reset();
 
     return { message: 'User deleted successfully!', statusCode: 200 };
   }

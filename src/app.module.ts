@@ -16,6 +16,7 @@ import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
     CacheModule.register({
       ttl: 86400000,
       max: 200,
+      isGlobal: true,
     }),
   ],
   controllers: [AppController],
