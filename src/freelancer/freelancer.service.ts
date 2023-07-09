@@ -45,8 +45,6 @@ export class FreelancerService {
       },
     });
 
-    console.log(newUser);
-
     if (!newUser) throw new BadRequestException('Error on body request');
 
     await this.cacheManager.reset();
@@ -117,7 +115,6 @@ export class FreelancerService {
     ] = await Promise.all([
       this.removeSkillSets(id, newSkillSets),
       dto.skillSets.map(async (item) => {
-        console.log(item);
         return await this.prismaService.skillset.upsert({
           where: {
             id: item?.id || '',
@@ -138,8 +135,7 @@ export class FreelancerService {
       !toRemoveSkillSets ||
       !removeSkillSets ||
       !updateSkillSets ||
-      !updateDetails ||
-      !checkUser
+      !updateDetails
     )
       throw new BadRequestException('Error while updating skillsets');
 
@@ -176,7 +172,7 @@ export class FreelancerService {
     return [toRemoveSkillSets, removeSkillSets];
   }
   async updateUserDetails(userId: string, dto: FreelancerDto) {
-    const checkUser = await this.prismaService.freelancer.findMany({
+    const checkUser = await this.prismaService.freelancer.findFirst({
       where: {
         NOT: { id: userId },
         OR: [
@@ -192,7 +188,8 @@ export class FreelancerService {
         ],
       },
     });
-    if (checkUser)
+
+    if (!!checkUser)
       throw new ForbiddenException(
         'username / phone number / email are existing value',
       );
