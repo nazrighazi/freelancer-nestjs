@@ -22,7 +22,9 @@ export class FreelancerService {
     const compareUser = await this.checkExistingUser(dto);
 
     if (compareUser)
-      throw new ForbiddenException('Username or Email already existed');
+      throw new ForbiddenException(
+        'Username / Email / Phone Number already existed',
+      );
 
     const { skillSets } = dto;
     const newUser = await this.prismaService.freelancer.create({
@@ -62,6 +64,9 @@ export class FreelancerService {
           {
             email: dto.email,
           },
+          {
+            phoneNum: dto.phoneNum,
+          },
         ],
       },
     });
@@ -96,36 +101,21 @@ export class FreelancerService {
       });
     }
 
-    const toRemoveSkillSets = await Promise.all(
-      // dto.skillSets.filter((item) => item?.status?.toLowerCase() == 'delete'),
-      await this.prismaService.skillset.findMany({
-        where: {
-          userId: id,
-          NOT: {
-            OR: newSkillSets,
-          },
-        },
-      }),
-    );
+    // removeSkillSets
 
-    console.log(toRemoveSkillSets);
+    // const toRemoveSkillSets = await Promise.all(
+    //   // dto.skillSets.filter((item) => item?.status?.toLowerCase() == 'delete'),
 
-    if (toRemoveSkillSets) {
-      const removeSkillSets = await Promise.all(
-        toRemoveSkillSets.map(async (item) => {
-          return await this.prismaService.skillset.delete({
-            where: {
-              id: item?.id,
-            },
-          });
-        }),
-      );
+    // );
 
-      if (!removeSkillSets)
-        throw new BadRequestException('Error while updating your data');
-    }
+    // console.log(toRemoveSkillSets);
 
-    const updateSkillSets = await Promise.all(
+    const [
+      [toRemoveSkillSets, removeSkillSets],
+      updateSkillSets,
+      [checkUser, updateDetails],
+    ] = await Promise.all([
+      this.removeSkillSets(id, newSkillSets),
       dto.skillSets.map(async (item) => {
         console.log(item);
         return await this.prismaService.skillset.upsert({
@@ -141,14 +131,75 @@ export class FreelancerService {
           },
         });
       }),
-    );
+      this.updateUserDetails(id, dto),
+    ]);
 
-    if (!updateSkillSets)
+    if (
+      !toRemoveSkillSets ||
+      !removeSkillSets ||
+      !updateSkillSets ||
+      !updateDetails ||
+      !checkUser
+    )
       throw new BadRequestException('Error while updating skillsets');
 
-    const user = await this.prismaService.freelancer.update({
+    // const user = await ;
+
+    // if (!user) throw new BadRequestException('Error while updating the data');
+
+    await this.cacheManager.reset();
+
+    return updateDetails;
+  }
+
+  async removeSkillSets(userId: string, newSkillSets: any[]) {
+    const toRemoveSkillSets = await this.prismaService.skillset.findMany({
       where: {
-        id: id,
+        userId: userId,
+        NOT: {
+          OR: newSkillSets,
+        },
+      },
+    });
+
+    const removeSkillSets = toRemoveSkillSets.map(async (item) => {
+      return await this.prismaService.skillset.delete({
+        where: {
+          id: item?.id,
+        },
+      });
+    });
+
+    if (!removeSkillSets)
+      throw new BadRequestException('Error while updating your data');
+
+    return [toRemoveSkillSets, removeSkillSets];
+  }
+  async updateUserDetails(userId: string, dto: FreelancerDto) {
+    const checkUser = await this.prismaService.freelancer.findMany({
+      where: {
+        NOT: { id: userId },
+        OR: [
+          {
+            username: dto.username,
+          },
+          {
+            phoneNum: dto.phoneNum,
+          },
+          {
+            email: dto.email,
+          },
+        ],
+      },
+    });
+    if (checkUser)
+      throw new ForbiddenException(
+        'username / phone number / email are existing value',
+      );
+
+    const updateDetails = this.prismaService.freelancer.update({
+      where: {
+        id: userId,
       },
       data: {
         name: dto.name,
@@ -162,11 +213,7 @@ export class FreelancerService {
       },
     });
 
-    if (!user) throw new BadRequestException('Error while updating the data');
-
-    await this.cacheManager.reset();
-
-    return user;
+    return [checkUser, updateDetails];
   }
 
   async removeFreelancer(id: string) {
